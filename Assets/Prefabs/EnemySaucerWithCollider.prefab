@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7837289214103786378}
   - component: {fileID: 3928880668046269437}
   - component: {fileID: 4202652755164059409}
-  - component: {fileID: 1899523059480726425}
+  - component: {fileID: -87324916687151410}
   m_Layer: 0
   m_Name: EnemySaucerWithCollider
   m_TagString: Enemy
@@ -228,7 +228,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &1899523059480726425
+--- !u!114 &-87324916687151410
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
