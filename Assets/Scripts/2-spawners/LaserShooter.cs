@@ -1,30 +1,30 @@
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 
 /**
  * This component spawns the given laser-prefab whenever the player clicks a given key.
- * It also updates the "scoreText" field of the new laser.
+ * It also updates the "pointsToAdd" field of the new laser.
  */
-public class LaserShooter: ClickSpawner {
+public class LaserShooter : ClickSpawner
+{
     [SerializeField]
     [Tooltip("How many points to add to the shooter, if the laser hits its target")]
     int pointsToAdd = 1;
 
-    // A reference to the field that holds the score that has to be updated when the laser hits its target.
-    NumberField scoreField;  
+    [SerializeField]
+    [Tooltip("The tag of the target objects that the laser can hit.")]
+    string targetTag = "Enemy";
 
-    private void Start() {
-        scoreField = GetComponentInChildren<NumberField>();
-        if (!scoreField)
-            Debug.LogError($"No child of {gameObject.name} has a NumberField component!");
-    }
+    protected override GameObject spawnObject()
+    {
+        GameObject newObject = base.spawnObject(); // יצירת הלייזר
 
-    protected override GameObject spawnObject() {
-        GameObject newObject = base.spawnObject();  // base = super
-
-        // Modify the text field of the new object.
-        ScoreAdder newObjectScoreAdder = newObject.GetComponent<ScoreAdder>();
-        if (newObjectScoreAdder)
-            newObjectScoreAdder.SetScoreField(scoreField).SetPointsToAdd(pointsToAdd);
+        // חיבור ScoreAdder ללייזר
+        ScoreAdder scoreAdder = newObject.GetComponent<ScoreAdder>();
+        if (scoreAdder != null)
+        {
+            scoreAdder.SetPointsToAdd(pointsToAdd);
+            scoreAdder.triggeringTag = targetTag;
+        }
 
         return newObject;
     }

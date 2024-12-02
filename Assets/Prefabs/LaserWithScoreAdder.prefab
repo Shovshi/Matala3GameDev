@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: -1515559938600826020}
   - component: {fileID: 6742800857908197687}
   - component: {fileID: -8433250894850022944}
-  - component: {fileID: -3242596646991089796}
   - component: {fileID: -1184156024153231225}
+  - component: {fileID: 3990107705477911432}
   m_Layer: 0
   m_Name: LaserWithScoreAdder
   m_TagString: Laser
@@ -168,21 +168,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-3242596646991089796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 206225842732292031}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35d38dd5a21655c4c934a69ecb043cc8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  triggeringTag: Enemy
-  scoreField: {fileID: 0}
-  pointsToAdd: 5
 --- !u!114 &-1184156024153231225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,3 +181,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggeringTag: Enemy
+--- !u!114 &3990107705477911432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206225842732292031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35d38dd5a21655c4c934a69ecb043cc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggeringTag: Enemy
+  scoreManagerGameObject: {fileID: 4674556680608482212, guid: 44f21b1a90189944fb50729face23a4f,
+    type: 3}
+  pointsToAdd: 0
