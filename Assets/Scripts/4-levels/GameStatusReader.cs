@@ -1,13 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using TMPro;  // נוסיף את TextMeshPro כדי להציג את הניקוד
 
 /**
- * This component reades the "playerScore" static variable from the GAME_STATUS static class into this object's number field.
+ * This component reads the player score from the GameManager and displays it on the screen.
  */
-[RequireComponent(typeof(NumberField))]
-public class GameStatusReader : MonoBehaviour {
-    void Start() {
-        GetComponent<NumberField>().SetNumber(GAME_STATUS.playerScore);
+public class GameStatusReader : MonoBehaviour
+{
+    private TextMeshProUGUI scoreText;
+
+    void Start()
+    {
+        scoreText = GetComponent<TextMeshProUGUI>(); // תוודא שיש לך TextMeshProUGUI מחובר
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + GameManager.Instance.GetScore();
+        }
+        else
+        {
+            Debug.LogError("TextMeshProUGUI not found on GameStatusReader!");
+        }
     }
 }
