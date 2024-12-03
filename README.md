@@ -1,3 +1,4 @@
+
 # Spaceship Game Upgrade: Scoring and Visual Enhancements
 
 ## Overview of Changes
@@ -31,13 +32,90 @@
    - It uses `DontDestroyOnLoad` to ensure its persistence between scenes.
    - The `OnSceneLoaded` event is used to reassign the score UI reference when switching levels.
 
+   **GameManager.cs (Key Methods):**
+
+   ```csharp
+   public class GameManager : MonoBehaviour
+   {
+       public static GameManager Instance;
+
+       public int score = 0;
+       public TextMeshProUGUI scoreText;
+
+       private void Awake()
+       {
+           // Ensure only one instance of GameManager exists
+           if (Instance == null)
+           {
+               Instance = this;
+               DontDestroyOnLoad(gameObject); // Persist GameManager across scenes
+           }
+           else
+           {
+               Destroy(gameObject); // Destroy duplicate GameManager instances
+           }
+       }
+
+       private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+       {
+           UpdateScoreText(); // Reassign the score UI on scene load
+       }
+
+       public void AddScore(int points)
+       {
+           score += points;
+           UpdateScoreText();
+       }
+
+       public void ResetScore()
+       {
+           score = 0;
+           UpdateScoreText();
+       }
+
+       private void UpdateScoreText()
+       {
+           scoreText.text = "Score: " + score;
+       }
+   }
+   ```
+
 2. **Level Transition**:
    - Added logic to save the score before switching to a new level.
    - Ensured the score resets to zero only when starting a new game.
 
+   **LevelTransition.cs (Key Method):**
+
+   ```csharp
+   public class LevelTransition : MonoBehaviour
+   {
+       public void TransitionToLevel(string levelName)
+       {
+           // Save the current score before switching levels
+           PlayerPrefs.SetInt("CurrentScore", GameManager.Instance.score);
+           SceneManager.LoadScene(levelName);
+       }
+   }
+   ```
+
 3. **Game Over Logic**:
    - Updated the "Game Over" screen to display the final score.
    - Enhanced visual design with a new background.
+
+   **GameOver.cs (Key Method):**
+
+   ```csharp
+   public class GameOver : MonoBehaviour
+   {
+       public TextMeshProUGUI finalScoreText;
+
+       private void OnEnable()
+       {
+           // Display the final score on the "Game Over" screen
+           finalScoreText.text = "Final Score: " + PlayerPrefs.GetInt("CurrentScore");
+       }
+   }
+   ```
 
 ## How to Run the Project
 
@@ -52,4 +130,3 @@
 - Further refine the visuals for more immersive gameplay.
 
 ---
-
