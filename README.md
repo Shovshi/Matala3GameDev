@@ -1,42 +1,118 @@
-# Unity week 2: Formal elements
 
-A project with step-by-step scenes illustrating some of the formal elements of game development in Unity, including: 
+# Spaceship Game Upgrade: Scoring and Visual Enhancements
 
-* Prefabs for instantiating new objects;
-* Colliders for triggering outcomes of actions;
-* Coroutines for setting time-based rules.
+## Overview of Changes
 
-Text explanations are available 
-[here](https://github.com/gamedev-at-ariel/gamedev-5782) in folder 04.
+1. **Scoring System**:
+   - A scoring system was added to track the player's performance.
+   - Scores increase as the player successfully eliminates enemies.
 
-## Cloning
-To clone the project, you may need to install git lfs first (if it is not already installed):
+2. **Persistent Score Across Levels**:
+   - A `GameManager` singleton was introduced to manage the score.
+   - Scores are maintained across different levels using Unity's `DontDestroyOnLoad` mechanism.
+   - When transitioning between scenes, the score persists, ensuring continuity for the player.
 
-    git lfs install 
+3. **Resetting Scores**:
+   - The score resets to zero when restarting the game to provide a fresh experience.
 
-To clone faster, you can limit the depth to 1 like this:
+4. **Graphical Enhancements**:
+   - Updated the background of the "Game Over" scene to improve visual aesthetics.
+   - Adjusted graphics in other scenes for a more polished look.
 
-    git clone --depth=1 https://github.com/<repository-name>.git
+## How the Scoring System Works
 
-When you first open this project, you may not see the text in the score field.
-This is because `TextMeshPro` is not in the project.
-The Unity Editor should hopefully prompt you to import TextMeshPro;
-once you do this, re-open the scenes, and you should be able to see the texts.
+- **Tracking Scores**: The `GameManager` script contains methods to add to the score (`AddScore`), reset it (`ResetScore`), and display it on the screen (`UpdateScoreText`).
+- **Scene Management**: The score is saved and loaded using `PlayerPrefs` for smooth transitions.
+- **UI Integration**: A `TextMeshPro` UI element dynamically updates to reflect the current score.
 
+### Key Code Changes
 
+1. **GameManager Script**:
+   - The `GameManager` is a singleton that handles all score-related logic.
+   - It uses `DontDestroyOnLoad` to ensure its persistence between scenes.
+   - The `OnSceneLoaded` event is used to reassign the score UI reference when switching levels.
 
-## Credits
+   **GameManager.cs (Key Methods):**
 
-Programming:
-* Maoz Grossman
-* Erel Segal-Halevi
+   ```csharp
+   public class GameManager : MonoBehaviour
+   {
+       public static GameManager Instance;
 
-Online courses:
-* [The Ultimate Guide to Game Development with Unity 2019](https://www.udemy.com/the-ultimate-guide-to-game-development-with-unity/), by Jonathan Weinberger
+       public int score = 0;
+       public TextMeshProUGUI scoreText;
 
-Graphics:
-* [Matt Whitehead](https://ccsearch.creativecommons.org/photos/7fd4a37b-8d1a-4d4c-80a2-4ca4a3839941)
-* [Kenney's space kit](https://kenney.nl/assets/space-kit)
-* [Ductman's 2D Animated Spacehips](https://assetstore.unity.com/packages/2d/characters/2d-animated-spaceships-96852)
-* [Franc from the Noun Project](https://commons.wikimedia.org/w/index.php?curid=64661575)
-* [Greek-arrow-animated.gif by Andrikkos is licensed under CC BY-SA 3.0](https://search.creativecommons.org/photos/2db102af-80d0-4ec8-9171-1ac77d2565ce)
+       private void Awake()
+       {
+           // Ensure only one instance of GameManager exists
+           if (Instance == null)
+           {
+               Instance = this;
+               DontDestroyOnLoad(gameObject); // Persist GameManager across scenes
+           }
+           else
+           {
+               Destroy(gameObject); // Destroy duplicate GameManager instances
+           }
+       }
+
+       private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+       {
+           UpdateScoreText(); // Reassign the score UI on scene load
+       }
+
+       public void AddScore(int points)
+       {
+           score += points;
+           UpdateScoreText();
+       }
+
+       public void ResetScore()
+       {
+           score = 0;
+           UpdateScoreText();
+       }
+
+       private void UpdateScoreText()
+       {
+           scoreText.text = "Score: " + score;
+       }
+   }
+   ```
+
+2. **Level Transition**:
+   - Added logic to save the score before switching to a new level.
+   - Ensured the score resets to zero only when starting a new game.
+
+   **LevelTransition.cs (Key Method):**
+
+   ```csharp
+   public class LevelTransition : MonoBehaviour
+   {
+       public void TransitionToLevel(string levelName)
+       {
+           // Save the current score before switching levels
+           PlayerPrefs.SetInt("CurrentScore", GameManager.Instance.score);
+           SceneManager.LoadScene(levelName);
+       }
+   }
+   ```
+
+3. **Game Over Logic**:
+   - Updated the "Game Over" screen to display the final score.
+   - Enhanced visual design with a new background.
+   ```
+
+## How to Run the Project
+
+1. Open the project in Unity.
+2. Play the game from the main menu.
+3. Progress through levels to see the score system in action.
+4. Lose the game to view the "Game Over" screen and final score.
+
+## Future Enhancements
+
+- Add a high score system to track the best scores across sessions.
+- Further refine the visuals for more immersive gameplay.
+
+---
