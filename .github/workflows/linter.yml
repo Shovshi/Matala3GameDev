@@ -1,0 +1,30 @@
+
+name: Lint Code Base
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    name: Run Linter
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up .NET for Unity (if applicable)
+        uses: game-ci/unity-installer@v2
+        with:
+          unityVersion: 2022.3.0f1
+
+      - name: Install Linter Tool
+        run: dotnet tool install --global dotnet-format
+
+      - name: Run Linter
+        run: dotnet format --check
