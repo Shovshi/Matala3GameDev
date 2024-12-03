@@ -101,20 +101,6 @@
 3. **Game Over Logic**:
    - Updated the "Game Over" screen to display the final score.
    - Enhanced visual design with a new background.
-
-   **GameOver.cs (Key Method):**
-
-   ```csharp
-   public class GameOver : MonoBehaviour
-   {
-       public TextMeshProUGUI finalScoreText;
-
-       private void OnEnable()
-       {
-           // Display the final score on the "Game Over" screen
-           finalScoreText.text = "Final Score: " + PlayerPrefs.GetInt("CurrentScore");
-       }
-   }
    ```
 
 ## How to Run the Project
