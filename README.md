@@ -18,7 +18,8 @@
 4. **Graphical Enhancements**:
    - Updated the background of the "Game Over" scene to improve visual aesthetics.
    - Adjusted graphics in other scenes for a more polished look.
-
+5. **Destroy Enemies**
+   - The enemies spawnres will be destroy once they get to the game's border to prevent overload of objects .
 ## How the Scoring System Works
 
 - **Tracking Scores**: The `GameManager` script contains methods to add to the score (`AddScore`), reset it (`ResetScore`), and display it on the screen (`UpdateScoreText`).
